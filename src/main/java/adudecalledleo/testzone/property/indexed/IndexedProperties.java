@@ -3,6 +3,7 @@ package adudecalledleo.testzone.property.indexed;
 import adudecalledleo.testzone.property.MutableProperty;
 import adudecalledleo.testzone.property.Property;
 
+import java.util.BitSet;
 import java.util.concurrent.atomic.AtomicReferenceArray;
 import java.util.function.IntFunction;
 import java.util.function.ObjIntConsumer;
@@ -177,5 +178,43 @@ public final class IndexedProperties {
     @SafeVarargs
     public static <T> MutableIndexedProperty<T> combineMutable(Property<T>... properties) {
         return new CombinedMutableIndexedProperty<>(properties);
+    }
+
+    private static class BitSetIndexedProperty implements IndexedProperty<Boolean> {
+        protected final BitSet bitSet;
+
+        private BitSetIndexedProperty(BitSet bitSet) {
+            this.bitSet = bitSet;
+        }
+
+        @Override
+        public int size() {
+            return bitSet.size();
+        }
+
+        @Override
+        public Boolean get(int index) {
+            return bitSet.get(index);
+        }
+    }
+
+    public static IndexedProperty<Boolean> fromBitSet(BitSet bitSet) {
+        return new BitSetIndexedProperty(bitSet);
+    }
+
+    private static class BitSetMutableIndexedProperty extends BitSetIndexedProperty
+            implements MutableIndexedProperty<Boolean> {
+        private BitSetMutableIndexedProperty(BitSet bitSet) {
+            super(bitSet);
+        }
+
+        @Override
+        public void set(int index, Boolean value) {
+            bitSet.set(index, value);
+        }
+    }
+
+    public static MutableIndexedProperty<Boolean> fromBitSetMutable(BitSet bitSet) {
+        return new BitSetMutableIndexedProperty(bitSet);
     }
 }

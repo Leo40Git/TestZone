@@ -1,6 +1,9 @@
 package adudecalledleo.testzone.property.indexed;
 
+import java.util.List;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public interface IndexedProperty<T> {
     int size();
@@ -16,5 +19,9 @@ public interface IndexedProperty<T> {
             int finalI = i;
             visitor.visit(i, () -> get(finalI));
         }
+    }
+
+    default List<T> getAll(int from, int to) {
+        return IntStream.range(from, to).mapToObj(this::get).collect(Collectors.toList());
     }
 }
