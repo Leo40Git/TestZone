@@ -2,6 +2,7 @@ package adudecalledleo.testzone.property;
 
 import adudecalledleo.testzone.property.indexed.IndexedProperty;
 import adudecalledleo.testzone.property.indexed.MutableIndexedProperty;
+import adudecalledleo.util.Lazy;
 
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
@@ -68,18 +69,9 @@ public final class Properties {
         return new SupplierBackedProperty<>(getter);
     }
 
-    private static class LazySupplierBackedProperty<T> extends SupplierBackedProperty<T> {
-        private T value;
-
+    private static class LazySupplierBackedProperty<T> extends Lazy<T> implements Property<T> {
         private LazySupplierBackedProperty(Supplier<T> getter) {
             super(getter);
-        }
-
-        @Override
-        public T get() {
-            if (value == null)
-                value = super.get();
-            return value;
         }
     }
 
