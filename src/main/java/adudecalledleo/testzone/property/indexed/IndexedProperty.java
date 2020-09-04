@@ -1,9 +1,8 @@
 package adudecalledleo.testzone.property.indexed;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 public interface IndexedProperty<T> {
     int size();
@@ -21,7 +20,26 @@ public interface IndexedProperty<T> {
         }
     }
 
-    default List<T> getAll(int from, int to) {
-        return IntStream.range(from, to).mapToObj(this::get).collect(Collectors.toList());
+    default List<T> getAll(int start, int end) {
+        if (end < start) {
+            int tmp = end;
+            end = start;
+            start = tmp;
+        }
+        start = Math.max(start, 0);
+        end = Math.min(end, size());
+        int finalStart = start;
+        int finalEnd = end;
+        List<T> list = new ArrayList<>(finalEnd - finalStart);
+        visit((index, getter) -> {
+            if (index < finalStart || index >= finalEnd)
+                return;
+            list.add(index, getter.get());
+        });
+        return list;
+    }
+
+    default List<T> getAll() {
+        return getAll(0, size());
     }
 }

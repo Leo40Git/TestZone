@@ -1,6 +1,7 @@
 package adudecalledleo.testzone.property.indexed;
 
 import java.util.List;
+import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
@@ -25,12 +26,32 @@ public interface MutableIndexedProperty<T> extends IndexedProperty<T> {
         }
     }
 
-    default void setAll(int from, int to, List<T> values) {
-        int len = to - from;
-        if (len <= 0)
-            return;
-        len = Math.min(Math.min(len, values.size()), size());
-        for (int i = 0; i < len; i++)
-            set(i + from, values.get(i));
+    default void mutateAll(int start, int end, BiFunction<Integer, T, T> mutator) {
+        if (end < start) {
+            int tmp = end;
+            end = start;
+            start = tmp;
+        }
+        start = Math.max(start, 0);
+        end = Math.min(end, size());
+        int finalStart = start;
+        int finalEnd = end;
+        visitMutable((index, getter, setter) -> {
+            if (index < finalStart || index >= finalEnd)
+                return;
+            setter.accept(mutator.apply(index, getter.get()));
+        });
+    }
+
+    default void mutateAll(BiFunction<Integer, T, T> mutator) {
+        mutateAll(0, size(), mutator);
+    }
+
+    default void setAll(int start, int end, List<T> values) {
+        mutateAll(start, end, (index, value) -> values.get(index));
+    }
+
+    default void setAll(List<T> values) {
+        setAll(0, size(), values);
     }
 }
