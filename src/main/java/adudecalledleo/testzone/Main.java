@@ -61,7 +61,7 @@ public class Main {
                     testObj = testConstructor.newInstance();
                 } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
                     System.err.format(
-                            "Could not locate no-parameter constructor for test class \"%s\"",
+                            "Could not locate no-parameter constructor for test class \"%s\"\n",
                             testClass.getName());
                     e.printStackTrace();
                     continue;
