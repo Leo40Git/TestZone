@@ -3,6 +3,8 @@ package adudecalledleo.testzone.expression;
 import java.math.BigDecimal;
 import java.util.function.BiFunction;
 
+import static adudecalledleo.testzone.expression.Expression.parenString;
+
 public final class BinaryOperator implements Operator {
     private final java.util.function.BinaryOperator<BigDecimal> evalFunction;
     private final BiFunction<Expression, Expression, String> reprFunction;
@@ -35,8 +37,8 @@ public final class BinaryOperator implements Operator {
         };
     }
 
-    public static final BinaryOperator ADD = new BinaryOperator(BigDecimal::add, (param1, param2) -> param1.represent() + " + " + param2.represent());
-    public static final BinaryOperator SUBTRACT = new BinaryOperator(BigDecimal::subtract, (param1, param2) -> param1.represent() + " - " + param2.represent());
-    public static final BinaryOperator MULTIPLY = new BinaryOperator(BigDecimal::multiply, (param1, param2) -> param1.represent() + " * " + param2.represent());
-    public static final BinaryOperator DIVIDE = new BinaryOperator(BigDecimal::divide, (param1, param2) -> param1.represent() + "/" + param2.represent());
+    public static final BinaryOperator ADD = new BinaryOperator(BigDecimal::add, (param1, param2) -> param1.represent() + " + " + parenString(param2.represent()));
+    public static final BinaryOperator SUBTRACT = new BinaryOperator(BigDecimal::subtract, (param1, param2) -> param1.represent() + " - " + parenString(param2.represent()));
+    public static final BinaryOperator MULTIPLY = new BinaryOperator(BigDecimal::multiply, (param1, param2) -> param1.represent() + " * " + parenString(param2.represent()));
+    public static final BinaryOperator DIVIDE = new BinaryOperator(BigDecimal::divide, (param1, param2) -> param1.represent() + "/" + parenString(param2.represent()));
 }

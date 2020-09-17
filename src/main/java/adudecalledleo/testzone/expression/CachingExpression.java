@@ -22,4 +22,9 @@ public abstract class CachingExpression implements Expression {
             reprCache = represent0();
         return reprCache;
     }
+
+    @Override
+    public String toString() {
+        return represent() + " = " + evaluate();
+    }
 }

@@ -5,6 +5,8 @@ import adudecalledleo.util.BigDecimalSqrt;
 import java.math.BigDecimal;
 import java.util.function.Function;
 
+import static adudecalledleo.testzone.expression.Expression.parenString;
+
 public final class UnaryOperator implements Operator {
     private final java.util.function.UnaryOperator<BigDecimal> evalFunction;
     private final Function<Expression, String> reprFunction;
@@ -37,7 +39,7 @@ public final class UnaryOperator implements Operator {
     }
 
     public static final UnaryOperator ABS = new UnaryOperator(BigDecimal::abs, param -> "|" + param.represent() + "|");
-    public static final UnaryOperator NEGATE = new UnaryOperator(BigDecimal::negate, param -> "-(" + param.represent() + ")");
+    public static final UnaryOperator NEGATE = new UnaryOperator(BigDecimal::negate, param -> "-" + parenString(param.represent()));
     public static final UnaryOperator SQUARE = new UnaryOperator(bigDecimal -> bigDecimal.pow(2), param -> param.represent() + "^2");
     public static final UnaryOperator SQRT = new UnaryOperator(BigDecimalSqrt::sqrt, param -> "sqrt(" + param.represent() + ")");
 }

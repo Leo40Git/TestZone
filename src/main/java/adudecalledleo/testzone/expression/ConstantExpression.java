@@ -39,4 +39,9 @@ public final class ConstantExpression implements Expression {
     public ConstantExpression intern() {
         return POOL.computeIfAbsent(constant, bigDecimal -> this);
     }
+
+    @Override
+    public String toString() {
+        return represent();
+    }
 }
