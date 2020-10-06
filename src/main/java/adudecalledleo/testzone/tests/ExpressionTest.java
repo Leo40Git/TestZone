@@ -1,9 +1,9 @@
 package adudecalledleo.testzone.tests;
 
 import adudecalledleo.testzone.TerminalInterface;
-import adudecalledleo.testzone.expression.BinaryOperator;
+import adudecalledleo.testzone.expression.BinaryOperation;
 import adudecalledleo.testzone.expression.Expression;
-import adudecalledleo.testzone.expression.UnaryOperator;
+import adudecalledleo.testzone.expression.UnaryOperation;
 
 public class ExpressionTest extends Test {
     @Override
@@ -13,10 +13,11 @@ public class ExpressionTest extends Test {
 
     @Override
     public void run(TerminalInterface ti) {
-        Expression e1 = BinaryOperator.ADD.express(UnaryOperator.ABS.express(12), UnaryOperator.NEGATE.express(14));
-        Expression e2 = BinaryOperator.MULTIPLY.express(UnaryOperator.SQUARE.express(3), BinaryOperator.DIVIDE.express(1, 2));
-        Expression e3 = BinaryOperator.SUBTRACT.express(e1, e2);
-        Expression e4 = BinaryOperator.ADD.express(e3, UnaryOperator.SQRT.express(4));
+        Expression e1 = BinaryOperation.ADD.express(UnaryOperation.ABS.express(12), UnaryOperation.NEGATE.express(14));
+        Expression e2 = BinaryOperation.MULTIPLY.express(
+                UnaryOperation.SQUARE.express(3), BinaryOperation.DIVIDE.express(1, 2));
+        Expression e3 = BinaryOperation.SUBTRACT.express(e1, e2);
+        Expression e4 = BinaryOperation.ADD.express(e3, UnaryOperation.SQRT.express(4));
         System.out.println(e4);
     }
 }

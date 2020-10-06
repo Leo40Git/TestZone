@@ -3,7 +3,7 @@ package adudecalledleo.testzone.expression;
 import java.math.BigDecimal;
 import java.util.Arrays;
 
-public interface Operator {
+public interface Operation {
     int paramCount();
     Expression express(Expression... params);
 

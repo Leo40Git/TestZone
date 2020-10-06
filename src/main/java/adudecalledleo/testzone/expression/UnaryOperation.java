@@ -4,14 +4,15 @@ import adudecalledleo.util.BigDecimalSqrt;
 
 import java.math.BigDecimal;
 import java.util.function.Function;
+import java.util.function.UnaryOperator;
 
 import static adudecalledleo.testzone.expression.Expression.parenString;
 
-public final class UnaryOperator implements Operator {
-    private final java.util.function.UnaryOperator<BigDecimal> evalFunction;
+public final class UnaryOperation implements Operation {
+    private final UnaryOperator<BigDecimal> evalFunction;
     private final Function<Expression, String> reprFunction;
 
-    public UnaryOperator(java.util.function.UnaryOperator<BigDecimal> evalFunction, Function<Expression, String> reprFunction) {
+    public UnaryOperation(UnaryOperator<BigDecimal> evalFunction, Function<Expression, String> reprFunction) {
         this.evalFunction = evalFunction;
         this.reprFunction = reprFunction;
     }
@@ -38,8 +39,8 @@ public final class UnaryOperator implements Operator {
         };
     }
 
-    public static final UnaryOperator ABS = new UnaryOperator(BigDecimal::abs, param -> "|" + param.represent() + "|");
-    public static final UnaryOperator NEGATE = new UnaryOperator(BigDecimal::negate, param -> "-" + parenString(param.represent()));
-    public static final UnaryOperator SQUARE = new UnaryOperator(bigDecimal -> bigDecimal.pow(2), param -> param.represent() + "^2");
-    public static final UnaryOperator SQRT = new UnaryOperator(BigDecimalSqrt::sqrt, param -> "sqrt(" + param.represent() + ")");
+    public static final UnaryOperation ABS = new UnaryOperation(BigDecimal::abs, param -> "|" + param.represent() + "|");
+    public static final UnaryOperation NEGATE = new UnaryOperation(BigDecimal::negate, param -> "-" + parenString(param.represent()));
+    public static final UnaryOperation SQUARE = new UnaryOperation(bigDecimal -> bigDecimal.pow(2), param -> param.represent() + "^2");
+    public static final UnaryOperation SQRT = new UnaryOperation(BigDecimalSqrt::sqrt, param -> "sqrt(" + param.represent() + ")");
 }
