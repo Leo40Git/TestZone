@@ -10,7 +10,7 @@ import java.util.Iterator;
 public class NodeTest extends Test {
     @Override
     public String getName() {
-        return "node";
+        return "nodes";
     }
 
     @Override
