@@ -1,10 +1,11 @@
 package adudecalledleo.testzone.tests;
 
-import adudecalledleo.testzone.TerminalInterface;
 import adudecalledleo.testzone.collection.LinkedQueue;
 import adudecalledleo.testzone.collection.LinkedStack;
 import adudecalledleo.testzone.collection.Queue;
 import adudecalledleo.testzone.collection.Stack;
+
+import java.util.Scanner;
 
 public class CollectionTest extends Test {
     @Override
@@ -13,7 +14,7 @@ public class CollectionTest extends Test {
     }
 
     @Override
-    public void run(TerminalInterface ti) {
+    public void run(Scanner in) {
         Stack<String> stack = new LinkedStack<>();
         stack.push("A1");
         stack.push("B2");

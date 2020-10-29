@@ -7,48 +7,21 @@ import org.reflections.scanners.SubTypesScanner;
 import org.reflections.util.ClasspathHelper;
 import org.reflections.util.ConfigurationBuilder;
 
-import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Scanner;
 import java.util.Set;
 import java.util.function.Consumer;
 
 public class Main {
-
-    public static final String[] SPINNER = {
-            "[    ]",
-            "[=   ]",
-            "[==  ]",
-            "[=== ]",
-            "[ ===]",
-            "[  ==]",
-            "[   =]",
-            "[    ]",
-            "[   =]",
-            "[  ==]",
-            "[ ===]",
-            "[=== ]",
-            "[==  ]",
-            "[=   ]"
-    };
-    public static final int INTERVAL = 50;
-
-    private static TerminalInterface ti;
-
     public static void main(String[] args) {
-        try {
-            ti = new TerminalInterface("TestZone");
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.exit(1);
-        }
-        Map<String, Consumer<TerminalInterface>> testMap;
+        Scanner in = new Scanner(System.in);
+        Map<String, Consumer<Scanner>> testMap;
         {
-            Map<String, Consumer<TerminalInterface>> testMapM = new HashMap<>();
-            ti.startSpinner("Collecting tests... ", INTERVAL, SPINNER);
+            Map<String, Consumer<Scanner>> testMapM = new HashMap<>();
+            System.out.println("Collecting tests...");
             Reflections reflections = new Reflections(new ConfigurationBuilder()
                     .setUrls(ClasspathHelper.forPackage("adudecalledleo.testzone.tests"))
                     .addScanners(new SubTypesScanner()));
@@ -69,17 +42,28 @@ public class Main {
                 testMapM.put(testObj.getName(), testObj::run);
             }
             testMap = ImmutableMap.copyOf(testMapM);
-            ti.finishSpinner("[done]");
         }
-        String[] testNames = testMap.keySet().toArray(new String[0]);
-        boolean repeat;
-        do {
-            String testName = testNames[ti.promptList("Select test:", true, 0, testNames)];
-            Consumer<TerminalInterface> testConsumer = testMap.get(testName);
+        while (true) {
+            System.out.println("Available tests are:");
+            for (String testName : testMap.keySet())
+                System.out.format(" - %s%n", testName);
+            System.out.print("Select a test: ");
+            String testName = in.nextLine();
+            Consumer<Scanner> testConsumer = testMap.get(testName);
+            if (testConsumer == null) {
+                System.out.format("Unknown test \"%s\", try again%n", testName);
+                continue;
+            }
             System.out.println("Now running test \"" + testName + "\"...");
-            testConsumer.accept(ti);
-            repeat = ti.yesOrNo("Run another test?", false);
-        } while (repeat);
+            testConsumer.accept(in);
+            System.out.print("Run another test? [y/N] ");
+            String prompt = in.nextLine();
+            if (prompt.isEmpty())
+                break;
+            char yn = prompt.charAt(0);
+            if (yn != 'y' && yn != 'Y')
+                break;
+        }
     }
 
 }

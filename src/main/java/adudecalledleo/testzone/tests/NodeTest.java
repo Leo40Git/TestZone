@@ -1,11 +1,10 @@
 package adudecalledleo.testzone.tests;
 
-import adudecalledleo.testzone.TerminalInterface;
 import adudecalledleo.testzone.node.BinaryNode;
 import adudecalledleo.testzone.node.UnaryNode;
-import com.google.common.collect.Iterables;
 
 import java.util.Iterator;
+import java.util.Scanner;
 
 public class NodeTest extends Test {
     @Override
@@ -14,7 +13,7 @@ public class NodeTest extends Test {
     }
 
     @Override
-    public void run(TerminalInterface ti) {
+    public void run(Scanner in) {
         UnaryNode<String> unaryHead = buildListU("a", "b", "c", "d");
         System.out.println("Unary:");
         printIterator(unaryHead.iterator());
