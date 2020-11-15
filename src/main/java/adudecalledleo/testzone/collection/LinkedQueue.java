@@ -38,4 +38,10 @@ public class LinkedQueue<T> implements Queue<T> {
     public boolean isEmpty() {
         return head == null;
     }
+
+    @Override
+    public void clear() {
+        head = null;
+        tail = null;
+    }
 }

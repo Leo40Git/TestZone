@@ -5,4 +5,5 @@ public interface Queue<T> {
     T head();
     T remove();
     boolean isEmpty();
+    void clear();
 }
